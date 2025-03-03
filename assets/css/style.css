@@ -65,20 +65,6 @@
 
 }
 
-body {
-  opacity: 0;
-  transition: opacity 0.8s ease-in-out;
-}
-
-body.fade-in {
-  opacity: 1;
-}
-
-/* h1 {
-  text-align: center;
-  margin-top: 20%;
-  color: #333;
-} */
 
 *, *::before, *::after {
   margin: 0;
@@ -115,8 +101,15 @@ input, textarea {
 
 html { font-family: var(--ff-poppins); }
 
-body { background: var(--smoky-black); }
+body {
+  background: var(--smoky-black);
+  opacity: 0;
+  transition: opacity 0.7s ease-in-out;
+}
 
+body.fade-in {
+  opacity: 1;
+}
 
 .sidebar,
 article {
