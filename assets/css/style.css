@@ -1,33 +1,33 @@
 :root {
 
   --bg-gradient-onyx: linear-gradient(
-    to bottom right, 
-    hsl(240, 1%, 25%) 3%, 
+    to bottom right,
+    hsl(240, 1%, 25%) 3%,
     hsl(0, 0%, 19%) 97%
   );
   --bg-gradient-jet: linear-gradient(
-    to bottom right, 
-    hsla(240, 1%, 18%, 0.251) 0%, 
+    to bottom right,
+    hsla(240, 1%, 18%, 0.251) 0%,
     hsla(240, 2%, 11%, 0) 100%
   ), hsl(240, 2%, 13%);
   --bg-gradient-yellow-1: linear-gradient(
-    to bottom right, 
-    hsl(45, 100%, 71%) 0%, 
+    to bottom right,
+    hsl(45, 100%, 71%) 0%,
     hsla(36, 100%, 69%, 0) 50%
   );
   --bg-gradient-yellow-2: linear-gradient(
-    135deg, 
-    hsla(45, 100%, 71%, 0.251) 0%, 
+    135deg,
+    hsla(45, 100%, 71%, 0.251) 0%,
     hsla(35, 100%, 68%, 0) 59.86%
   ), hsl(240, 2%, 13%);
   --border-gradient-onyx: linear-gradient(
-    to bottom right, 
-    hsl(0, 0%, 25%) 0%, 
+    to bottom right,
+    hsl(0, 0%, 25%) 0%,
     hsla(0, 0%, 25%, 0) 50%
   );
   --text-gradient-yellow: linear-gradient(
-    to right, 
-    hsl(45, 100%, 72%), 
+    to right,
+    hsl(45, 100%, 72%),
     hsl(35, 100%, 68%)
   );
 
@@ -64,6 +64,21 @@
   --transition-2: 0.5s ease-in-out;
 
 }
+
+body {
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+}
+
+body.fade-in {
+  opacity: 1;
+}
+
+/* h1 {
+  text-align: center;
+  margin-top: 20%;
+  color: #333;
+} */
 
 *, *::before, *::after {
   margin: 0;
@@ -177,7 +192,7 @@ article.active {
   font-weight: var(--fw-500);
 }
 .h6 {
-  font-size: var(--fs-6); 
+  font-size: var(--fs-6);
   font-weight: var(--fw-400);
   color: white;
 }
@@ -494,7 +509,7 @@ main {
 
 
 /**
- * education and experience 
+ * education and experience
  */
 
 .timeline { margin-bottom: 30px; }
@@ -557,7 +572,7 @@ main {
 
 
 /**
- * skills 
+ * skills
  */
 
 .skills-title { margin-bottom: 20px; }
@@ -879,7 +894,7 @@ textarea.form-input::-webkit-resizer { display: none; }
 
 
   /**
-   * #PORTFOLIO, BLOG 
+   * #PORTFOLIO, BLOG
    */
 
   .project-img,
@@ -1277,7 +1292,7 @@ textarea.form-input::-webkit-resizer { display: none; }
     width: max-content;
     margin-left: auto;
   }
-  
+
 }
 
 
@@ -1320,7 +1335,7 @@ textarea.form-input::-webkit-resizer { display: none; }
 
 
   /**
-   * MAIN 
+   * MAIN
    */
 
   main { margin-bottom: 60px; }
@@ -1493,7 +1508,7 @@ textarea.form-input::-webkit-resizer { display: none; }
   }
 
   .contacts-list { grid-template-columns: 1fr; }
-  
+
   .contact-info {
     max-width: none;
   }

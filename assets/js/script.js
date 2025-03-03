@@ -24,6 +24,11 @@ const selectItems = document.querySelectorAll("[data-select-item]");
 const selectValue = document.querySelector("[data-selecct-value]");
 const filterBtn = document.querySelectorAll("[data-filter-btn]");
 
+// Wait for the DOM to fully load for fade in
+document.addEventListener("DOMContentLoaded", function() {
+  document.body.classList.add("fade-in"); // Add fade-in class to body
+});
+
 // add event in all select items
 for (let i = 0; i < selectItems.length; i++) {
   selectItems[i].addEventListener("click", function () {
