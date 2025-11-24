@@ -1542,3 +1542,31 @@ textarea.form-input::-webkit-resizer { display: none; }
   .timeline-text { max-width: 700px; }
 
 }
+/* Page fade animations with subtle slide */
+[data-page] {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: none;
+}
+
+[data-page].active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+[data-page].fade-out {
+  opacity: 0;
+  transform: translateY(0); /* Don't move when fading out */
+}
+
+/* Navbar fade and slide effect */
+.navbar {
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.navbar.fade-out {
+  opacity: 0;
+  transform: translateY(0); /* Don't move when fading out */
+}
