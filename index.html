@@ -76,7 +76,7 @@
             <div class="contact-info">
               <p class="contact-title">Email</p>
 
-              <a href="mailto:aiden@aidenbok.uk" class="contact-link">aiden@aidenbok.uk</a>
+              <a href="/cdn-cgi/l/email-protection#03626a67666d43626a67666d616c682d7668" class="contact-link"><span class="__cf_email__" data-cfemail="f4959d90919ab4959d90919a969b9fda819f">[email&#160;protected]</span></a>
             </div>
 
           </li>
@@ -372,11 +372,11 @@
         <section class="contact-form">
           <h3 class="h3 form-title">Contact Form</h3>
 
-          <form action="mailto:aiden@aidenbok.uk" method="get" enctype="text/plain">
+          <form onsubmit="sendMessage(event)">
 
-            <input type="text" name="subject" class="form-input" placeholder="Subject" required data-form-input>
+            <input type="text" name="subject" class="form-input" id="subject" placeholder="Subject" required data-form-input>
             <br>
-            <textarea name="body" class="form-input" placeholder="Your Message" required data-form-input></textarea>
+            <textarea name="body" class="form-input" id="body" placeholder="Your Message" required data-form-input></textarea>
 
             <button class="form-btn" type="submit" data-form-btn>
               <ion-icon name="paper-plane"></ion-icon>
@@ -399,14 +399,55 @@
   <!--
     - custom js link
   -->
-  <script src="./assets/js/script.js"></script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="./assets/js/script.js"></script>
 
   <!--
-    - ionicon link
+    - ion
   -->
-  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
-</body>
-
-</html>
+  <script>
+    async function sendMessage(event) {
+      event.preventDefault();
+      
+      const subject = document.getElementById('subject').value.trim();
+      const body = document.getElementById('body').value.trim();
+      
+      if (!subject || !body) {
+        alert('Please fill in all fields.');
+        return;
+      }
+      
+      const webhookURL = 'https://discord.com/api/webhooks/1478676856726225110/h9LXdscEPZukobMcv0qT-t2QU1p2HH9LTBLb9ErVSZM7XRv1gMvyi7iNkh1wSTT6r0Q0';
+      
+      const payload = {
+        content: '<@&everyone> **New Message from Aiden\'s Portfolio**',
+        embeds: [{
+          color: 3447003,
+          fields: [
+            { name: 'Subject', value: subject, inline: false },
+            { name: 'Message', value: body, inline: false }
+          ],
+          footer: { text: 'Aiden Bok - Portfolio Contact Form' },
+          timestamp: new Date().toISOString()
+        }]
+      };
+      
+      try {
+        const response = await fetch(webhookURL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        
+        if (response.ok) {
+          alert('✅ Message sent successfully!');
+          document.getElementById('subject').value = '';
+          document.getElementById('body').value = '';
+        } else {
+          alert('Error sending message. Please try again.');
+        }
+      } catch (error) {
+        alert('Error sending message. Please try again.');
+        console.error('Error:', error);
+      }
+    }
+  </script>
