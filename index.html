@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,451 +9,748 @@
   <meta property="og:image" content="https://aidenbok.uk/assets/images/logo.jpg">
   <meta property="og:url" content="https://aidenbok.uk">
   <meta property="og:type" content="website">
-  <meta name="twitter:title" content="Aiden's portfolio">
-  <meta name="twitter:description" content="Full time student passionate about Mathematics and Computer Science">
-  <meta name="twitter:image" content="https://aidenbok.uk/assets/images/logo.jpg">
   <link rel="shortcut icon" href="/assets/images/logo-round.png" type="image/x-icon">
-  <title>Aiden Bok - Personal Portfolio</title>
+  <title>Aiden Bok — Portfolio</title>
 
-  <!--
-    - custom css link
-  -->
-  <link rel="stylesheet" href="./assets/css/style.css">
-
-  <!--
-    - google font link
-  -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-</head>
 
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #111118;
+      --surface: #16161f;
+      --border: rgba(255,255,255,0.07);
+      --accent: #c8a96e;
+      --accent2: #e8c98e;
+      --text: #e8e8f0;
+      --muted: #8888a0;
+      --faint: rgba(255,255,255,0.04);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+
+    /* ── LAYOUT ── */
+    .layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      min-height: 100vh;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 48px 32px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      overflow-y: auto;
+    }
+
+    .sidebar-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .sidebar-brand h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.9rem;
+      font-weight: 400;
+      line-height: 1.1;
+      background: linear-gradient(135deg, var(--accent2) 0%, var(--accent) 60%, #a07040 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .sidebar-brand p {
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── NAV ── */
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .sidebar-nav button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 400;
+      color: var(--muted);
+      transition: all 0.2s ease;
+      letter-spacing: 0.02em;
+    }
+
+    .sidebar-nav button:hover {
+      color: var(--text);
+      background: var(--faint);
+    }
+
+    .sidebar-nav button.active {
+      color: var(--accent);
+      background: rgba(200, 169, 110, 0.08);
+    }
+
+    /* ── CONTACTS ── */
+    .contacts {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: auto;
+    }
+
+    .contacts-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .contact-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .contact-icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.85rem;
+    }
+
+    .contact-icon img {
+      width: 14px; height: 14px;
+      filter: brightness(0.7) sepia(1) saturate(0.5);
+    }
+
+    .contact-row a, .contact-row address {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-style: normal;
+      transition: color 0.2s;
+    }
+
+    .contact-row a:hover { color: var(--accent); }
+
+    /* ── MAIN ── */
+    .main-content {
+      padding: 48px 56px;
+      min-height: 100vh;
+    }
+
+    /* ── PAGES ── */
+    .page { display: none; animation: fadeIn 0.4s ease; }
+    .page.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      margin-bottom: 48px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-header h2 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.6rem;
+      font-weight: 400;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    .page-header h2 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    /* ── ABOUT ── */
+    .about-intro {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #b8b8cc;
+      font-weight: 300;
+      max-width: 640px;
+      margin-bottom: 48px;
+    }
+
+    .about-intro a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(200,169,110,0.3);
+      transition: border-color 0.2s;
+    }
+
+    .about-intro a:hover { border-color: var(--accent); }
+
+    /* ── CERTS ── */
+    .section-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+      margin-bottom: 48px;
+    }
+
+    .cert-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .cert-card:hover {
+      border-color: rgba(200,169,110,0.3);
+      transform: translateY(-1px);
+    }
+
+    .cert-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-top: 6px;
+      flex-shrink: 0;
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    .cert-card span {
+      font-size: 0.85rem;
+      color: #b0b0c8;
+      line-height: 1.4;
+    }
+
+    /* ── RESUME TIMELINE ── */
+    .timeline-section {
+      margin-bottom: 48px;
+    }
+
+    .timeline-heading {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .timeline-heading-bar {
+      width: 3px;
+      height: 22px;
+      background: linear-gradient(to bottom, var(--accent2), var(--accent));
+      border-radius: 2px;
+    }
+
+    .timeline-heading h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 400;
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+      padding-left: 24px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 8px; bottom: 8px;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding: 0 0 36px 28px;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -4px; top: 8px;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 10px rgba(200,169,110,0.4);
+    }
+
+    .timeline-item:last-child { padding-bottom: 0; }
+
+    .timeline-item h4 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .timeline-item h6 {
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: var(--accent);
+      margin-bottom: 4px;
+      letter-spacing: 0.03em;
+    }
+
+    .timeline-date {
+      display: inline-block;
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .timeline-body {
+      font-size: 0.86rem;
+      color: #9090a8;
+      line-height: 1.75;
+      font-weight: 300;
+    }
+
+    .timeline-body i { color: #b0b0c8; font-style: italic; }
+
+    .timeline-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .timeline-list li {
+      font-size: 0.86rem;
+      color: #9090a8;
+      line-height: 1.65;
+      font-weight: 300;
+      padding-left: 14px;
+      position: relative;
+    }
+
+    .timeline-list li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    /* ── CONTACT ── */
+    .contact-wrap {
+      max-width: 540px;
+    }
+
+    .contact-desc {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 32px;
+      font-weight: 300;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .form-input {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--text);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      resize: none;
+    }
+
+    .form-input::placeholder { color: var(--muted); }
+
+    .form-input:focus {
+      border-color: rgba(200,169,110,0.5);
+      box-shadow: 0 0 0 3px rgba(200,169,110,0.06);
+    }
+
+    textarea.form-input { min-height: 140px; }
+
+    .submit-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      border: none;
+      border-radius: 10px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: #0a0a0f;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+      margin-top: 8px;
+    }
+
+    .submit-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .submit-btn:active { transform: translateY(0); }
+
+    .submit-btn svg {
+      width: 16px; height: 16px;
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 32px; right: 32px;
+      background: var(--surface);
+      border: 1px solid rgba(200,169,110,0.3);
+      border-radius: 10px;
+      padding: 14px 20px;
+      font-size: 0.85rem;
+      color: var(--text);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .layout { grid-template-columns: 1fr; }
+
+      .sidebar {
+        position: relative;
+        height: auto;
+        padding: 32px 24px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .sidebar-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+
+      .contacts { margin-top: 0; }
+
+      .main-content { padding: 32px 24px; }
+
+      .cert-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
 <body>
 
-  <!--
-    - #MAIN
-  -->
-
-  <main>
-
-    <!--
-      - #SIDEBAR
-    -->
-
-    <aside class="sidebar" data-sidebar>
-
-      <div class="sidebar-info">
-
-
-
-        <div class="info-content">
-          <h1 class="name" title="Aiden Bok">Aiden Bok</h1>
-
-          <p class="title">Full Time Student</p>
-        </div>
-
-        <button class="info_more-btn" data-sidebar-btn>
-          <span>Show Contacts</span>
-
-          <ion-icon name="chevron-down"></ion-icon>
-        </button>
-
-      </div>
-
-      <div class="sidebar-info_more">
-
-        <div class="separator"></div>
-
-        <ul class="contacts-list">
-
-          <li class="contact-item">
-
-            <div class="icon-box">
-              <ion-icon name="mail-outline"></ion-icon>
-            </div>
-
-            <div class="contact-info">
-              <p class="contact-title">Email</p>
-
-              <a href="/cdn-cgi/l/email-protection#03626a67666d43626a67666d616c682d7668" class="contact-link"><span class="__cf_email__" data-cfemail="f4959d90919ab4959d90919a969b9fda819f">[email&#160;protected]</span></a>
-            </div>
-
-          </li>
-          <li class="contact-item">
-
-            <div class="icon-box">
-              <img src="./assets/images/icon-github.svg" alt="GitHub icon" width="20" height="20"
-                onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-            </div>
-
-            <div class="contact-info">
-              <p class="contact-title">GitHub</p>
-              <a href="https://github.com/aidenbok203" class="contact-link" target="_blank">@aidenbok203</a>
-            </div>
-
-          </li>
-
-          <li class="contact-item">
-
-            <div class="icon-box">
-              <img src="./assets/images/icon_linkedin.png" alt="LinkedIn icon" width="20" height="20"
-              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-            </div>
-
-            <div class="contact-info">
-              <p class="contact-title">Linkedin</p>
-              <a href="https://www.linkedin.com/in/aiden-bok-5891b5270/" class="contact-link" target="_blank">Aiden Bok</a>
-            </div>
-          </li>
-
-          <li class="contact-item">
-
-            <div class="icon-box">
-              <ion-icon name="location-outline"></ion-icon>
-            </div>
-
-            <div class="contact-info">
-              <p class="contact-title">Location</p>
-
-              <address>London, UK</address>
-            </div>
-
-          </li>
-
-        </ul>
-
-        <div class="separator"></div>
-
-        <ul class="social-list">
-
-
-
-        </ul>
-
-      </div>
-
-    </aside>
-
-
-
-
-
-    <!--
-      - #main-content
-    -->
-
-    <div class="main-content">
-
-      <!--
-        - #NAVBAR
-      -->
-
-      <nav class="navbar">
-
-        <ul class="navbar-list">
-
-          <li class="navbar-item">
-            <button class="navbar-link  active" data-nav-link>About</button>
-          </li>
-
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Resume</button>
-          </li>
-
-          <!-- <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Portfolio</button>
-          </li> -->
-
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Contact</button>
-          </li>
-
-        </ul>
-
-      </nav>
-
-
-
-
-
-      <!--
-        - #ABOUT
-      -->
-
-      <article class="about  active" data-page="about">
-
-        <header>
-          <h2 class="h2 article-title">Hey👋, I’m Aiden</h2>
-        </header>
-
-        <section class="about-text">
-          <p>
-            I am passionate about leveraging my skills in Mathematics and Computer
-            Science, and to utilise my skills to impactful projects. I regularly contribute on
-            open-source projects on <a href=https://github.com/aidenbok203 target="_blank">Github</a>, and collaborate
-            with developers from diverse
-            backgrounds to create innovative solutions. My experience includes working
-            with programming languages such as Python and C++ to develop robust
-            applications.
-          </p>
-        </section>
-
-        <header>
-          <h3 class="h3 certificates-title">Certificates</h3>
-        </header>
-
-        <section class="about-text">
-          <p>
-          <ul>
-            <li>• ABRSM Grade 8 - Clarinet</li>
-            <li>• ABRSM Grade 5 - Music Theory</li>
-            <li>• National Scientific Thinking Competition - Distinction</li>
-            <li>• British Physics Olympiad - Gold</li>
-            <li>• Intermediate Maths Challenge - Gold</li>
-            <li>• UK Biology Challenge - Silver</li>
-          </ul>
-          </p>
-        </section>
-
-
-        <!--
-          - service
-        -->
-
-
-
-        <!--
-          - clients
-        -->
-
-
-
-        </ul>
-
-        </section>
-
-      </article>
-
-
-
-
-
-      <!--
-        - #RESUME
-      -->
-
-      <article class="resume" data-page="resume">
-
-        <header>
-          <h2 class="h2 article-title">Resume</h2>
-        </header>
-
-        <section class="timeline">
-
-          <div class="title-wrapper">
-            <div class="icon-box">
-              <ion-icon name="book-outline"></ion-icon>
-            </div>
-
-            <h3 class="h3">Education</h3>
-          </div>
-
-          <ol class="timeline-list">
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">St. Dominic's Sixth Form College</h4>
-
-              <span>2025 - Present</span>
-
-              <p class="timeline-text">
-                I am currently a leader of learning for Maths and Further Maths,
-                and a member of Computer Science and Raspberry Pi societies.
-              </p>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">St. Margaret's School</h4>
-
-              <span>2022 - 2025</span>
-
-              <p class="timeline-text">
-                I was actively involved in various activities and societies, including
-                the Chamber Orchestra, Woodwind Ensemble, and Single Reed
-                Ensemble. I was an Academic and Music Scholar, having been offered an Academic
-                Scholarship for Sixth Form and having received a Music and Academic Award in
-                Year 9, along with Music, Maths, and Computing Awards in Year 10, and a Maths Award in Year 11.
-              </p>
-              <br>
-              <p class="timeline-text">
-                Furthermore, I led my school's Robotics team, overseeing all aspects of our projects,
-                from designing and building robots to programming them for competitions.
-                I coordinated the team's efforts, ensuring effective collaboration and innovative problem-solving strategies.
-                Under my leadership, we achieved the title of regional champions.
-              </p>
-              <br>
-              <p class="timeline-text">
-                Additionally, I was an active participant in the Music Department, where I
-                contributed as a pit musician in several school productions, including <i>Les
-                Misérables</i> and <i>West Side Story</i>.
-              </p>
-
-
-            </li>
-
-          </ol>
-
-        </section>
-
-        <section class="timeline">
-
-          <div class="title-wrapper">
-            <div class="icon-box">
-              <ion-icon name="book-outline"></ion-icon>
-            </div>
-
-            <h3 class="h3">Experience</h3>
-          </div>
-
-          <ol class="timeline-list">
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">Retail Volunteer</h4>
-              <h6 class="h6 timeline-item-title">Barnardo's UK</h6>
-
-
-              <span>2023 - 2025</span>
-
-              <p class="timeline-text">
-              <ul class="timeline-text">
-                <li>• Consistently managed inventory levels and upheld cleanliness standards throughout the store,
-                  contributing to an inviting and orderly shopping environment.</li>
-                <li>• Delivered outstanding customer service by promptly addressing inquiries and guiding customers in
-                  locating products.</li>
-                <li>• Sorted and organised donations, ensuring accurate categorisation and preparedness for
-                  distribution.</li>
-                <li>• Processed transactions at the register, ensuring a smooth and efficient checkout experience for
-                  customers.</li>
-                <li>• Collaborated with the team to plan and execute promotional events, assisting with display setups
-                  and engaging customers to effectively promote special offers and initiatives.</li>
-              </ul>
-              </p>
-
-            </li>
-
-          </ol>
-
-        </section>
-
-
-
-      </article>
-
-
-
-
-
-
-
-
-
-      <!--
-        - #CONTACT
-      -->
-
-      <article class="contact" data-page="contact">
-        <header>
-          <h2 class="h2 article-title">Contact</h2>
-        </header>
-
-        <section class="contact-form">
-          <h3 class="h3 form-title">Contact Form</h3>
-
-          <form onsubmit="sendMessage(event)">
-
-            <input type="text" name="subject" class="form-input" id="subject" placeholder="Subject" required data-form-input>
-            <br>
-            <textarea name="body" class="form-input" id="body" placeholder="Your Message" required data-form-input></textarea>
-
-            <button class="form-btn" type="submit" data-form-btn>
-              <ion-icon name="paper-plane"></ion-icon>
-              <span>Send Message</span>
-            </button>
-          </form>
-        </section>
-      </article>
-
-
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <h1>Aiden Bok</h1>
+      <p>Full-time student</p>
     </div>
 
-  </main>
+    <div class="divider"></div>
 
+    <nav class="sidebar-nav">
+      <button class="active" data-page="about">About</button>
+      <button data-page="resume">Resume</button>
+      <button data-page="contact">Contact</button>
+    </nav>
 
+    <div class="divider"></div>
 
+    <div class="contacts">
+      <span class="contacts-label">Reach me</span>
 
+      <div class="contact-row">
+        <div class="contact-icon">✉</div>
+        <a href="mailto:aiden@aidenbok.uk">aiden@aidenbok.uk</a>
+      </div>
 
+      <div class="contact-row">
+        <div class="contact-icon">
+          <img src="./assets/images/icon-github.svg" alt="GitHub">
+        </div>
+        <a href="https://github.com/aidenbok203" target="_blank">@aidenbok203</a>
+      </div>
 
-  <!--
-    - custom js link
-  -->
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="./assets/js/script.js"></script>
+      <div class="contact-row">
+        <div class="contact-icon">
+          <img src="./assets/images/icon_linkedin.png" alt="LinkedIn">
+        </div>
+        <a href="https://www.linkedin.com/in/aiden-bok-5891b5270/" target="_blank">Aiden Bok</a>
+      </div>
 
-  <!--
-    - ionicon link
-  -->
-  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+      <div class="contact-row">
+        <div class="contact-icon">◎</div>
+        <address>London, UK</address>
+      </div>
+    </div>
+  </aside>
 
-  <!--
-    - Discord webhook
-  -->
-  <script>
-    async function sendMessage(event) {
-      event.preventDefault();
-      
-      const subject = document.getElementById('subject').value.trim();
-      const body = document.getElementById('body').value.trim();
-      
-      if (!subject || !body) {
-        alert('Please fill in all fields.');
-        return;
+  <!-- MAIN -->
+  <div class="main-content">
+
+    <!-- ABOUT -->
+    <article class="page active" id="page-about">
+      <div class="page-header">
+        <h2>Hey, I'm <em>Aiden</em> 👋</h2>
+      </div>
+
+      <p class="about-intro">
+        I'm passionate about leveraging my skills in Mathematics and Computer Science on impactful projects.
+        I regularly contribute to open-source work on <a href="https://github.com/aidenbok203" target="_blank">GitHub</a>,
+        collaborating with developers from diverse backgrounds to create innovative solutions.
+        My experience spans Python and C++, building robust applications from the ground up.
+      </p>
+
+      <h3 class="section-title">Certificates & Awards</h3>
+      <div class="cert-grid">
+        <div class="cert-card"><div class="cert-dot"></div><span>ABRSM Grade 8 — Clarinet</span></div>
+        <div class="cert-card"><div class="cert-dot"></div><span>ABRSM Grade 5 — Music Theory</span></div>
+        <div class="cert-card"><div class="cert-dot"></div><span>National Scientific Thinking Competition — Distinction</span></div>
+        <div class="cert-card"><div class="cert-dot"></div><span>British Physics Olympiad — Gold</span></div>
+        <div class="cert-card"><div class="cert-dot"></div><span>Intermediate Maths Challenge — Gold</span></div>
+        <div class="cert-card"><div class="cert-dot"></div><span>UK Biology Challenge — Silver</span></div>
+      </div>
+    </article>
+
+    <!-- RESUME -->
+    <article class="page" id="page-resume">
+      <div class="page-header">
+        <h2>Resume</h2>
+      </div>
+
+      <div class="timeline-section">
+        <div class="timeline-heading">
+          <div class="timeline-heading-bar"></div>
+          <h3>Education</h3>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <h4>St. Dominic's Sixth Form College</h4>
+            <span class="timeline-date">2025 — Present</span>
+            <p class="timeline-body">
+              Leader of learning for Maths and Further Maths. Active member of the Computer Science and Raspberry Pi societies.
+            </p>
+          </div>
+
+          <div class="timeline-item">
+            <h4>St. Margaret's School</h4>
+            <span class="timeline-date">2022 — 2025</span>
+            <p class="timeline-body">
+              Academic and Music Scholar. Involved in Chamber Orchestra, Woodwind Ensemble, and Single Reed Ensemble.
+              Received Music and Academic Award (Year 9), Music, Maths, and Computing Awards (Year 10), and Maths Award (Year 11).
+              Offered an Academic Scholarship for Sixth Form.
+            </p>
+            <br>
+            <p class="timeline-body">
+              Led the school's Robotics team across design, build, and competition, achieving <strong style="color: var(--text)">regional champions</strong>.
+            </p>
+            <br>
+            <p class="timeline-body">
+              Performed as pit musician in school productions including <i>Les Misérables</i> and <i>West Side Story</i>.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-section">
+        <div class="timeline-heading">
+          <div class="timeline-heading-bar"></div>
+          <h3>Experience</h3>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <h4>Retail Volunteer</h4>
+            <h6>Barnardo's UK</h6>
+            <span class="timeline-date">2023 — 2025</span>
+            <ul class="timeline-list">
+              <li>Managed inventory and upheld cleanliness standards, maintaining an orderly shopping environment.</li>
+              <li>Delivered outstanding customer service, addressing inquiries and guiding customers to products.</li>
+              <li>Sorted and categorised donations for efficient distribution.</li>
+              <li>Processed register transactions, ensuring smooth checkout experiences.</li>
+              <li>Collaborated on promotional events, assisting with display setups and customer engagement.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- CONTACT -->
+    <article class="page" id="page-contact">
+      <div class="page-header">
+        <h2>Get in touch</h2>
+      </div>
+
+      <div class="contact-wrap">
+        <p class="contact-desc">Have a question or want to work together? Drop me a message and I'll get back to you.</p>
+
+        <div class="form-group">
+          <label class="form-label" for="subject">Subject</label>
+          <input type="text" class="form-input" id="subject" placeholder="What's this about?">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="body">Message</label>
+          <textarea class="form-input" id="body" placeholder="Your message…"></textarea>
+        </div>
+
+        <button class="submit-btn" onclick="sendMessage()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Send Message
+        </button>
+      </div>
+    </article>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // Nav
+  document.querySelectorAll('.sidebar-nav button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.sidebar-nav button').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('page-' + btn.dataset.page).classList.add('active');
+    });
+  });
+
+  // Toast
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3500);
+  }
+
+  // Contact
+  async function sendMessage() {
+    const subject = document.getElementById('subject').value.trim();
+    const body = document.getElementById('body').value.trim();
+
+    if (!subject || !body) { showToast('⚠️ Please fill in all fields.'); return; }
+
+    const webhookURL = 'https://discord.com/api/webhooks/1478676856726225110/h9LXdscEPZukobMcv0qT-t2QU1p2HH9LTBLb9ErVSZM7XRv1gMvyi7iNkh1wSTT6r0Q0';
+
+    const payload = {
+      content: '@everyone **New Message from Aiden\'s Portfolio**',
+      embeds: [{
+        color: 3447003,
+        fields: [
+          { name: 'Subject', value: subject, inline: false },
+          { name: 'Message', value: body, inline: false }
+        ],
+        footer: { text: 'Aiden Bok — Portfolio Contact Form' },
+        timestamp: new Date().toISOString()
+      }]
+    };
+
+    try {
+      const response = await fetch(webhookURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok) {
+        showToast('✅ Message sent successfully!');
+        document.getElementById('subject').value = '';
+        document.getElementById('body').value = '';
+      } else {
+        showToast('❌ Failed to send. Please try again.');
       }
-      
-      const webhookURL = 'https://discord.com/api/webhooks/1478676856726225110/h9LXdscEPZukobMcv0qT-t2QU1p2HH9LTBLb9ErVSZM7XRv1gMvyi7iNkh1wSTT6r0Q0';
-      
-      const payload = {
-        content: '@everyone **New Message from Aiden\'s Portfolio**',
-        embeds: [{
-          color: 3447003,
-          fields: [
-            { name: 'Subject', value: subject, inline: false },
-            { name: 'Message', value: body, inline: false }
-          ],
-          footer: { text: 'Aiden Bok - Portfolio Contact Form' },
-          timestamp: new Date().toISOString()
-        }]
-      };
-      
-      try {
-        const response = await fetch(webhookURL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        
-        if (response.ok) {
-          alert('✅ Message sent successfully!');
-          document.getElementById('subject').value = '';
-          document.getElementById('body').value = '';
-        } else {
-          alert('Error sending message. Please try again.');
-        }
-      } catch (error) {
-        alert('Error sending message. Please try again.');
-        console.error('Error:', error);
-      }
+    } catch (e) {
+      showToast('❌ Error sending message.');
+      console.error(e);
     }
-  </script>
+  }
+</script>
+
+</body>
+</html>
