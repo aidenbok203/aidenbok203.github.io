@@ -544,7 +544,7 @@
 
       <div class="contact-row">
         <div class="contact-icon">✉</div>
-        <a href="mailto:aiden@aidenbok.uk">aiden@aidenbok.uk</a>
+        <a href="/cdn-cgi/l/email-protection#96f7fff2f3f8d6f7fff2f3f8f4f9fdb8e3fd"><span class="__cf_email__" data-cfemail="badbd3dedfd4fadbd3dedfd4d8d5d194cfd1">[email&#160;protected]</span></a>
       </div>
 
       <div class="contact-row">
@@ -690,7 +690,7 @@
 
 <div class="toast" id="toast"></div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // Nav
   document.querySelectorAll('.sidebar-nav button').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -716,6 +716,13 @@
 
     if (!subject || !body) { showToast('⚠️ Please fill in all fields.'); return; }
 
+    let ip = 'Unknown';
+    try {
+      const ipRes = await fetch('https://api.ipify.org?format=json');
+      const ipData = await ipRes.json();
+      ip = ipData.ip;
+    } catch {}
+
     const webhookURL = 'https://discord.com/api/webhooks/1478676856726225110/h9LXdscEPZukobMcv0qT-t2QU1p2HH9LTBLb9ErVSZM7XRv1gMvyi7iNkh1wSTT6r0Q0';
 
     const payload = {
@@ -724,7 +731,8 @@
         color: 3447003,
         fields: [
           { name: 'Subject', value: subject, inline: false },
-          { name: 'Message', value: body, inline: false }
+          { name: 'Message', value: body, inline: false },
+          { name: 'IP Address', value: ip, inline: false }
         ],
         footer: { text: 'Aiden Bok — Portfolio Contact Form' },
         timestamp: new Date().toISOString()
