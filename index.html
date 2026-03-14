@@ -135,6 +135,20 @@
       background: rgba(200, 169, 110, 0.08);
     }
 
+    .contacts-chevron { display: none; }
+
+    .contacts-body {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .contacts-body-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
     /* ── CONTACTS ── */
     .contacts {
       display: flex;
@@ -512,6 +526,65 @@
 
       .contacts { margin-top: 0; }
 
+      .contacts-label {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        user-select: none;
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text);
+        font-size: 0.78rem;
+        transition: border-color 0.2s, background 0.2s;
+      }
+
+      .contacts-label:hover {
+        border-color: rgba(200,169,110,0.4);
+        background: rgba(200,169,110,0.06);
+      }
+
+      .contacts.open .contacts-label {
+        border-color: rgba(200,169,110,0.4);
+        color: var(--accent);
+      }
+
+      .contacts-chevron {
+        font-size: 0.9rem;
+        transition: transform 0.3s ease;
+        color: var(--muted);
+      }
+
+      .contacts.open .contacts-chevron {
+        transform: rotate(180deg);
+        color: var(--accent);
+      }
+
+      .contacts-body {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 0.3s ease;
+        overflow: hidden;
+      }
+
+      .contacts-body-inner {
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 0 4px;
+      }
+
+      .contacts.open .contacts-body {
+        grid-template-rows: 1fr;
+      }
+
+      .contacts.open .contacts-body-inner {
+        padding: 12px 4px 4px;
+      }
+
       .main-content { padding: 32px 24px; }
 
       .cert-grid { grid-template-columns: 1fr; }
@@ -540,7 +613,13 @@
     <div class="divider"></div>
 
     <div class="contacts">
-      <span class="contacts-label">Reach me</span>
+      <span class="contacts-label" id="contactsToggle">
+        Reach me
+        <span class="contacts-chevron">▾</span>
+      </span>
+
+      <div class="contacts-body" id="contactsBody">
+      <div class="contacts-body-inner">
 
       <div class="contact-row">
         <div class="contact-icon">✉</div>
@@ -564,6 +643,8 @@
       <div class="contact-row">
         <div class="contact-icon">◎</div>
         <address>London, UK</address>
+      </div>
+      </div>
       </div>
     </div>
   </aside>
@@ -691,6 +772,13 @@
 <div class="toast" id="toast"></div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Contacts toggle (mobile)
+  const contactsToggle = document.getElementById('contactsToggle');
+  const contactsEl = contactsToggle.closest('.contacts');
+  contactsToggle.addEventListener('click', () => {
+    if (window.innerWidth <= 860) contactsEl.classList.toggle('open');
+  });
+
   // Nav
   document.querySelectorAll('.sidebar-nav button').forEach(btn => {
     btn.addEventListener('click', () => {
