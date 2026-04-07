@@ -413,6 +413,99 @@
       color: var(--accent);
     }
 
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    }
+
+    .project-card:hover {
+      border-color: rgba(200,169,110,0.35);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+    }
+
+    .project-body {
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .project-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .project-header h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px; height: 28px;
+      flex-shrink: 0;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+
+    .project-link:hover {
+      color: var(--accent);
+      border-color: rgba(200,169,110,0.4);
+      background: rgba(200,169,110,0.06);
+    }
+
+    .project-desc {
+      font-size: 0.84rem;
+      color: #9090a8;
+      line-height: 1.7;
+      font-weight: 300;
+      flex: 1;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 4px;
+    }
+
+    .project-tag {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(200,169,110,0.08);
+      border: 1px solid rgba(200,169,110,0.18);
+      border-radius: 5px;
+      padding: 3px 9px;
+    }
+
     /* ── CONTACT ── */
     .contact-wrap {
       max-width: 540px;
@@ -607,6 +700,7 @@
     <nav class="sidebar-nav">
       <button class="active" data-page="about">About</button>
       <button data-page="resume">Resume</button>
+      <button data-page="projects">Projects</button>
       <button data-page="contact">Contact</button>
     </nav>
 
@@ -707,7 +801,7 @@
             </p>
             <br>
             <p class="timeline-body">
-              Led the school's Robotics team across design, build, and competition, achieving <strong style="color: var(--text)">regional champions</strong>.
+              Led the school's Robotics team across design, build, and competition, achieving regional champions.
             </p>
             <br>
             <p class="timeline-body">
@@ -737,6 +831,49 @@
             </ul>
           </div>
         </div>
+      </div>
+    </article>
+
+    <!-- PROJECTS -->
+    <article class="page" id="page-projects">
+      <div class="page-header">
+        <h2>My <em>Projects</em></h2>
+      </div>
+
+      <div class="projects-grid">
+
+        <div class="project-card">
+          <div class="project-body">
+            <div class="project-header">
+              <h3>M Tuition</h3>
+              <a href="https://mtuition.uk" target="_blank" class="project-link" title="Visit site">↗</a>
+            </div>
+            <p class="project-desc">
+              Tutoring site built for Mehdi Ali, covering GCSE and A-Level subjects in Watford and Harrow. Students can browse tutors, read about the approach, and book a free consultation.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">HTML / CSS</span>
+              <span class="project-tag">JavaScript</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-body">
+            <div class="project-header">
+              <h3>L &amp; M Heating Supplies</h3>
+              <a href="https://lmheating.com" target="_blank" class="project-link" title="Visit site">↗</a>
+            </div>
+            <p class="project-desc">
+              Trade website for a heating supplier with depots in Enfield and Rushden. Covers their full range — radiators, boilers, cylinders, towel rails — with branch info and downloadable catalogues.
+            </p>
+            <div class="project-tags">
+              <span class="project-tag">HTML / CSS</span>
+              <span class="project-tag">JavaScript</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </article>
 
