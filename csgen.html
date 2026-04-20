@@ -89,6 +89,26 @@ input[type=number]{-moz-appearance:textfield;appearance:textfield}
 .preview-placeholder{text-align:center;color:#999;font-size:14px}
 .preview-placeholder svg{display:block;margin:0 auto 12px;opacity:.3}
 
+/* ── Debug panel ─────────────────────────────────────────────────── */
+#debug-panel{width:0;min-width:0;overflow:hidden;background:#fff;border-left:1px solid #dde1e7;display:flex;flex-direction:column;transition:width .2s ease,min-width .2s ease;flex-shrink:0}
+#debug-panel.open{width:360px;min-width:320px}
+#debug-inner{width:360px;min-width:320px;display:flex;flex-direction:column;height:100%;overflow-y:auto}
+#debug-header{padding:14px 16px 10px;border-bottom:1px solid #eef0f3;font-size:13px;font-weight:700;color:#1a1a1a;display:flex;align-items:center;gap:8px}
+#debug-header span{font-size:11px;font-weight:400;color:#888}
+#debug-input-row{display:flex;gap:6px;padding:10px 12px;border-bottom:1px solid #eef0f3}
+#debug-id{flex:1;padding:7px 9px;border:1.5px solid #d0d4db;border-radius:6px;font-size:12px;font-family:monospace;color:#1a1a1a}
+#debug-id:focus{outline:none;border-color:#1a3a5c}
+#debug-go{padding:7px 12px;background:#1a3a5c;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap}
+#debug-go:hover{background:#0f2640}
+#debug-result{padding:12px;flex:1}
+#debug-result .dbg-section{margin-bottom:14px}
+#debug-result .dbg-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#888;margin-bottom:6px}
+#debug-result .dbg-meta{font-size:11px;color:#444;line-height:1.7;font-family:monospace;background:#f7f9fc;border-radius:5px;padding:8px 10px;word-break:break-all}
+#debug-result .dbg-img{width:100%;border:1px solid #e5e9f0;border-radius:4px;display:block}
+#debug-result .dbg-none{font-size:11px;color:#bbb;font-style:italic}
+#debug-btn{padding:4px 10px;font-size:11px;font-weight:600;background:#f0f4f8;color:#1a3a5c;border:1px solid #c8d4e0;border-radius:5px;cursor:pointer}
+#debug-btn:hover{background:#e0eaf5}
+
 /* ── A4 Paper (preview) ─────────────────────────────────────────── */
 .a4-page{
   width:210mm;
@@ -288,6 +308,7 @@ input[type=number]{-moz-appearance:textfield;appearance:textfield}
         <button id="view-ms-btn" class="view-mode-btn" onclick="setViewMode('ms')">Mark Scheme</button>
       </div>
       <button onclick="openReport()" style="padding:5px 12px;font-size:12px;font-weight:600;background:#fff3f3;color:#c62828;border:1.5px solid #ffcdd2;border-radius:6px;cursor:pointer">Report question</button>
+      <button id="debug-btn" onclick="toggleDebug()">Debug</button>
     </div>
   </div>
   <div id="error-msg"></div>
@@ -301,6 +322,19 @@ input[type=number]{-moz-appearance:textfield;appearance:textfield}
       </svg>
       Configure topics and click <strong>Generate Paper</strong>
     </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ DEBUG PANEL -->
+<div id="debug-panel">
+  <div id="debug-inner">
+    <div id="debug-header">Debug <span>lookup question / answer by ID</span></div>
+    <div id="debug-input-row">
+      <input id="debug-id" type="text" placeholder="e.g. h446-01-2024-q3" autocomplete="off"
+             onkeydown="if(event.key==='Enter')debugLookup()">
+      <button id="debug-go" onclick="debugLookup()">Go</button>
+    </div>
+    <div id="debug-result"><p class="dbg-none">Enter an ID above.</p></div>
   </div>
 </div>
 
@@ -826,6 +860,56 @@ function closeDrawer() {
   document.getElementById('sidebar').classList.remove('drawer-open');
   document.getElementById('drawer-backdrop').classList.remove('open');
   document.body.style.overflow = '';
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// DEBUG PANEL
+// ═══════════════════════════════════════════════════════════════════
+function toggleDebug() {
+  const panel = document.getElementById('debug-panel');
+  const btn   = document.getElementById('debug-btn');
+  const open  = panel.classList.toggle('open');
+  btn.style.background = open ? '#1a3a5c' : '';
+  btn.style.color      = open ? '#fff'    : '';
+  if (open) setTimeout(() => document.getElementById('debug-id').focus(), 220);
+}
+
+function debugLookup() {
+  const raw = document.getElementById('debug-id').value.trim();
+  const result = document.getElementById('debug-result');
+  if (!raw) { result.innerHTML = '<p class="dbg-none">Enter an ID above.</p>'; return; }
+
+  // Strip -qs / -ms suffix to get base ID
+  const baseId = raw.replace(/-(qs|ms)$/, '');
+  const q = (questionBank?.questions || []).find(q => q.id === baseId);
+
+  if (!q) {
+    result.innerHTML = `<p class="dbg-none">No question found for <code>${esc(baseId)}</code>.</p>`;
+    return;
+  }
+
+  const meta = [
+    ['ID',      q.id],
+    ['Topic',   q.topic],
+    ['Level',   q.level],
+    ['Year',    q.year || '—'],
+    ['Paper',   q.paper || '—'],
+    ['Marks',   q.marks],
+    ['MS src',  q.ms_source || '—'],
+  ].map(([k,v]) => `<b>${k}:</b> ${esc(String(v??''))}`).join('<br>');
+
+  const qImg  = q.image    ? `<img class="dbg-img" src="${q.image}">` : `<p class="dbg-none">No QP image.</p>`;
+  const msImg = q.ms_image ? `<img class="dbg-img" src="${q.ms_image}">` : `<p class="dbg-none">No MS image.</p>`;
+  const textBlock = q.text
+    ? `<div class="dbg-meta">${esc(q.text)}</div>`
+    : `<p class="dbg-none">No text.</p>`;
+
+  result.innerHTML = `
+    <div class="dbg-section"><div class="dbg-label">Meta</div><div class="dbg-meta">${meta}</div></div>
+    <div class="dbg-section"><div class="dbg-label">Question text</div>${textBlock}</div>
+    <div class="dbg-section"><div class="dbg-label">QP image (${q.id}-qs)</div>${qImg}</div>
+    <div class="dbg-section"><div class="dbg-label">MS image (${q.id}-ms)</div>${msImg}</div>
+  `;
 }
 
 // ═══════════════════════════════════════════════════════════════════
