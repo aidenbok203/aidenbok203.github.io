@@ -424,14 +424,22 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function loadQuestions() {
   try {
-    const resp = await fetch('assets/questions.json');
-    if (!resp.ok) throw new Error(resp.status);
-    questionBank = await resp.json();
+    const [r1, r2] = await Promise.all([
+      fetch('assets/questions_comp1.json'),
+      fetch('assets/questions_comp2.json')
+    ]);
+    if (!r1.ok || !r2.ok) throw new Error();
+    const [d1, d2] = await Promise.all([r1.json(), r2.json()]);
+    questionBank = {
+      generated: d1.generated,
+      count: d1.count + d2.count,
+      questions: [...d1.questions, ...d2.questions]
+    };
     renderStats();
     renderTopicPanel();
     setMsg('');
   } catch (e) {
-    showError('questions.json not found &mdash; run <code>python scraper.py</code> first and place it in the <code>assets/</code> directory.');
+    showError('questions_comp1.json / questions_comp2.json not found &mdash; run <code>python scraper.py</code> first and place them in the <code>assets/</code> directory.');
   }
 }
 
